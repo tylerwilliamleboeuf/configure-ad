@@ -5,52 +5,118 @@
 <h1>On-premises Active Directory Deployed in the Cloud (Azure)</h1>
 This tutorial outlines the implementation of on-premises Active Directory within Azure Virtual Machines.<br />
 
+  <h2>Technologies Used</h2>
+  <ul>
+    <li>Microsoft Azure – for cloud infrastructure</li>
+    <li>Windows Server 2022 – for domain controller VM</li>
+    <li>Windows 10 – for client VM</li>
+    <li>Active Directory Domain Services (AD DS)</li>
+    <li>PowerShell – for automation and user creation</li>
+    <li>Remote Desktop Protocol (RDP) – for VM access</li>
+  </ul>
 
-<h2>Video Demonstration</h2>
+  <h2>Operating Systems Used</h2>
+  <ul>
+    <li>Windows Server 2022 (Domain Controller)</li>
+    <li>Windows 10 (Client Machine)</li>
+  </ul>
 
-- ### [YouTube: How to Deploy on-premises Active Directory within Azure Compute](https://www.youtube.com)
+  <h2>Step-by-Step Instructions</h2>
 
-<h2>Environments and Technologies Used</h2>
+  <h3>1. Create the Domain Controller (DC-1)</h3>
+  <ul>
+    <li>In Azure, create a new Resource Group to group all related resources for this project.</li>
+    <li>Create a Virtual Network (VNet) and Subnet to ensure both VMs are on the same local network.</li>
+    <li>Deploy a Windows Server 2022 VM named <strong>DC-1</strong> within your VNet and Subnet.</li>
+    <li>Use the following credentials:  
+      <code>Username: labuser</code>  
+      <code>Password: Cyberlab123!</code></li>
+    <li>Once the VM is created, set the Network Interface's private IP to static to avoid changes after reboots.</li>
+    <li>Log into DC-1 via RDP. Temporarily disable the firewall for simplicity in this lab (not recommended for production).</li>
+  </ul>
+  <img src="https://via.placeholder.com/800x400?text=Azure+VM+Deployment" width="100%" />
 
-- Microsoft Azure (Virtual Machines/Compute)
-- Remote Desktop
-- Active Directory Domain Services
-- PowerShell
+  <h3>2. Create Client VM (Client-1)</h3>
+  <ul>
+    <li>Deploy a Windows 10 VM named <strong>Client-1</strong> in the same region, VNet, and Subnet as DC-1.</li>
+    <li>Use the same credentials as before: <code>labuser / Cyberlab123!</code></li>
+    <li>Before starting the VM, go to the Network Interface settings and manually set the DNS to the static private IP of DC-1.</li>
+    <li>Restart the Client-1 VM to apply the DNS configuration.</li>
+  </ul>
+  <img src="https://via.placeholder.com/800x400?text=Client+VM+Network+Config" width="100%" />
 
-<h2>Operating Systems Used </h2>
+  <h3>3. Verify Connectivity</h3>
+  <ul>
+    <li>Log into Client-1 using RDP.</li>
+    <li>Open Command Prompt and use <code>ping &lt;DC-1 IP&gt;</code> to confirm it can communicate with DC-1.</li>
+    <li>Run <code>ipconfig /all</code> and verify that the DNS server matches DC-1’s private IP address.</li>
+  </ul>
 
-- Windows Server 2022
-- Windows 10 (21H2)
+  <h3>4. Install Active Directory on DC-1</h3>
+  <ul>
+    <li>On DC-1, open Server Manager &gt; Manage &gt; Add Roles and Features.</li>
+    <li>Select “Active Directory Domain Services” and complete the installation.</li>
+    <li>After installation, click “Promote this server to a domain controller.”</li>
+    <li>Create a new forest with domain name: <strong>mydomain.com</strong></li>
+    <li>Set Directory Services Restore Mode (DSRM) password.</li>
+    <li>After configuration, the server will restart. Log back in using:  
+      <code>mydomain.com\labuser</code></li>
+  </ul>
+  <img src="https://via.placeholder.com/800x400?text=AD+Installation" width="100%" />
 
-<h2>High-Level Deployment and Configuration Steps</h2>
+  <h3>5. Create a Domain Admin User</h3>
+  <ul>
+    <li>Open “Active Directory Users and Computers” (ADUC).</li>
+    <li>Right-click the domain &gt; New &gt; Organizational Unit (OU). Name it <strong>_ADMINS</strong>.</li>
+    <li>Create another OU named <strong>_EMPLOYEES</strong> for standard users.</li>
+    <li>Right-click the _ADMINS OU &gt; New &gt; User. Name: <strong>jane_admin</strong>, set password: <code>Cyberlab123!</code></li>
+    <li>Right-click the user &gt; Properties &gt; Member Of &gt; Add to “Domain Admins” group.</li>
+    <li>Log out and log back in as <code>mydomain.com\jane_admin</code> to confirm elevated permissions.</li>
+  </ul>
+  <img src="https://via.placeholder.com/800x400?text=ADUC+User+Setup" width="100%" />
 
-- Step 1
-- Step 2
-- Step 3
-- Step 4
+  <h3>6. Join Client-1 to the Domain</h3>
+  <ul>
+    <li>Log into Client-1 as local user <code>labuser</code>.</li>
+    <li>Open Settings &gt; System &gt; About &gt; Rename this PC (Advanced).</li>
+    <li>Click “Change” and select “Domain.” Enter <strong>mydomain.com</strong> and authenticate with jane_admin credentials.</li>
+    <li>Restart Client-1 after the domain join is complete.</li>
+    <li>Log in with <code>mydomain.com\jane_admin</code> or any other domain user.</li>
+    <li>From DC-1, open ADUC and verify Client-1 is listed under “Computers.” Move it to a new OU called <strong>_CLIENTS</strong>.</li>
+  </ul>
 
-<h2>Deployment and Configuration Steps</h2>
+  <h3>7. Enable Remote Desktop for Domain Users</h3>
+  <ul>
+    <li>Log into Client-1 with a domain admin account.</li>
+    <li>Go to System Properties &gt; Remote &gt; Allow remote connections.</li>
+    <li>Click “Select Users” and add “Domain Users” to grant RDP access to all domain accounts.</li>
+  </ul>
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+  <h3>8. Create Additional Users with PowerShell</h3>
+  <ul>
+    <li>On DC-1, log in as <code>jane_admin</code> and open PowerShell ISE as Administrator.</li>
+    <li>Create a CSV file with a list of user details (e.g., first name, last name, username).</li>
+    <li>Write a script that loops through the CSV and uses <code>New-ADUser</code> to add users to the _EMPLOYEES OU.</li>
+    <li>Example PowerShell snippet:</li>
+  </ul>
+  <pre style="background-color: #f4f4f4; padding: 10px; border-left: 4px solid #ccc;">
+Import-Csv "C:\users.csv" | ForEach-Object {
+  New-ADUser -Name "$($_.FirstName) $($_.LastName)" `
+             -GivenName $_.FirstName `
+             -Surname $_.LastName `
+             -SamAccountName $_.Username `
+             -UserPrincipalName "$($_.Username)@mydomain.com" `
+             -AccountPassword (ConvertTo-SecureString "Cyberlab123!" -AsPlainText -Force) `
+             -Enabled $true `
+             -Path "OU=_EMPLOYEES,DC=mydomain,DC=com"
+}
+  </pre>
+  <ul>
+    <li>Verify the new accounts in ADUC and test logging in to Client-1 with one of them.</li>
+  </ul>
+  <img src="https://via.placeholder.com/800x400?text=PowerShell+User+Script" width="100%" />
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+  <br />
+  <p align="center"><em>Project complete. You now have a fully operational Active Directory lab environment in Azure, complete with domain controller, client machine, OUs, domain users, and PowerShell automation.</em></p>
 
-<p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
-<br />
+</body>
