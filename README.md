@@ -39,7 +39,13 @@ This tutorial outlines the implementation of on-premises Active Directory within
     <img src="https://i.imgur.com/FZkZNm3.png"/> 
     <img src="https://i.imgur.com/qoK2xOR.png"/>
     <li>Log into DC-1 via RDP using DC-1's public IP. Temporarily disable the firewall for simplicity in this lab (not recommended for production).</li>
-  <img src="https://i.imgur.com/2mKmxfz.png"/>
+    <p><img src="https://i.imgur.com/2mKmxfz.png"/><</p>
+      <li>Run wf.msc for firewall settings.</li>
+    <p><img src="https://i.imgur.com/8OOPwCl.png"/></p>
+      <li>Navigate to Windows Firewall Propetries.</li>
+    <p><img src="https://i.imgur.com/0Yq3HRb.png"/></p>
+      <li>Turn off firewall under Domain, Private, and Public Profile.</li>
+    <p><img src="https://i.imgur.com/cxm8cMR.png"/></p>
   </ul>
   
 
