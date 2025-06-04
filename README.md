@@ -26,15 +26,22 @@ This tutorial outlines the implementation of on-premises Active Directory within
   <h3>1. Create the Domain Controller (DC-1)</h3>
   <ul>
     <li>In Azure, create a new Resource Group to group all related resources for this project.</li>
+    <img src="https://i.imgur.com/1aJ5rVE.png"/>
     <li>Create a Virtual Network (VNet) and Subnet to ensure both VMs are on the same local network.</li>
+    <img src="https://i.imgur.com/lbqwdsr.png"/>
     <li>Deploy a Windows Server 2022 VM named <strong>DC-1</strong> within your VNet and Subnet.</li>
+    <img src="https://i.imgur.com/ZupaX7h.png"/>
     <li>Use the following credentials:  
       <code>Username: labuser</code>  
       <code>Password: Cyberlab123!</code></li>
+     <img src="https://i.imgur.com/haKlbJ1.png"/>  
     <li>Once the VM is created, set the Network Interface's private IP to static to avoid changes after reboots.</li>
-    <li>Log into DC-1 via RDP. Temporarily disable the firewall for simplicity in this lab (not recommended for production).</li>
+    <img src="https://i.imgur.com/FZkZNm3.png"/> 
+    <img src="https://i.imgur.com/qoK2xOR.png"/>
+    <li>Log into DC-1 via RDP using DC-1's public IP. Temporarily disable the firewall for simplicity in this lab (not recommended for production).</li>
+  <img src="https://i.imgur.com/2mKmxfz.png"/>
   </ul>
-  <img src="https://via.placeholder.com/800x400?text=Azure+VM+Deployment" width="100%" />
+  
 
   <h3>2. Create Client VM (Client-1)</h3>
   <ul>
