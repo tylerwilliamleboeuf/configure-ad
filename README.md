@@ -52,9 +52,14 @@ This tutorial outlines the implementation of on-premises Active Directory within
   <h3>2. Create Client VM (Client-1)</h3>
   <ul>
     <li>Deploy a Windows 10 VM named <strong>Client-1</strong> in the same region, VNet, and Subnet as DC-1.</li>
+   <img src="https://i.imgur.com/994cbNv.png"/> 
     <li>Use the same credentials as before: <code>labuser / Cyberlab123!</code></li>
+    <img src="https://i.imgur.com/nnoTUjL.png"/>
     <li>Before starting the VM, go to the Network Interface settings and manually set the DNS to the static private IP of DC-1.</li>
+    <img src="https://i.imgur.com/RUtkNUu.png"/> 
+    <img src="https://i.imgur.com/lBJUHfJ.png"/>
     <li>Restart the Client-1 VM to apply the DNS configuration.</li>
+    <img src="https://i.imgur.com/kssskRo.png"/>
   </ul>
   <img src="https://via.placeholder.com/800x400?text=Client+VM+Network+Config" width="100%" />
 
