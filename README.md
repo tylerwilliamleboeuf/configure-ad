@@ -76,6 +76,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
   <ul>
     <li>On DC-1, open Server Manager &gt; Manage &gt; Add Roles and Features.</li>
     <img src="https://i.imgur.com/C4FaOTK.png"/>
+    <br />
     <img src="https://i.imgur.com/0LGHdNz.png"/>
     <li>Select “Active Directory Domain Services” and complete the installation.</li>
     <img src="https://i.imgur.com/Pxz7s6u.png"/>
@@ -89,18 +90,21 @@ This tutorial outlines the implementation of on-premises Active Directory within
       <code>mydomain.com\labuser</code></li>
     <img src="https://i.imgur.com/W4YQwAE.png"/>
   </ul>
-  <img src="https://via.placeholder.com/800x400?text=AD+Installation" width="100%" />
 
   <h3>5. Create a Domain Admin User</h3>
   <ul>
     <li>Open “Active Directory Users and Computers” (ADUC).</li>
     <li>Right-click the domain &gt; New &gt; Organizational Unit (OU). Name it <strong>_ADMINS</strong>.</li>
+    <img src="https://i.imgur.com/yNGjrzq.png"/>
     <li>Create another OU named <strong>_EMPLOYEES</strong> for standard users.</li>
+    <img src="https://i.imgur.com/um8GTDg.png"/>
     <li>Right-click the _ADMINS OU &gt; New &gt; User. Name: <strong>jane_admin</strong>, set password: <code>Cyberlab123!</code></li>
+    <img src="https://i.imgur.com/5VRIjCG.png"/>
     <li>Right-click the user &gt; Properties &gt; Member Of &gt; Add to “Domain Admins” group.</li>
+    <img src="https://i.imgur.com/n1F4QhP.png"/>
     <li>Log out and log back in as <code>mydomain.com\jane_admin</code> to confirm elevated permissions.</li>
+    <img src="https://i.imgur.com/yFzWpk2.png"/>
   </ul>
-  <img src="https://via.placeholder.com/800x400?text=ADUC+User+Setup" width="100%" />
 
   <h3>6. Join Client-1 to the Domain</h3>
   <ul>
