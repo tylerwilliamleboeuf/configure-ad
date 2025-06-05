@@ -191,7 +191,6 @@ while ($count -lt $NUMBER_OF_ACCOUNTS_TO_CREATE) {
     <img src="https://i.imgur.com/HcGOfMW.png"/><br />
     <img src="https://i.imgur.com/lMTbyJo.png"/><br />
   </ul>
-  <img src="https://via.placeholder.com/800x400?text=PowerShell+User+Script" width="100%" />
 
   <br />
   <p align="center"><em>Project complete. You now have a fully operational Active Directory lab environment in Azure, complete with domain controller, client machine, OUs, domain users, and PowerShell automation.</em></p>
