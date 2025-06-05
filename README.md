@@ -187,9 +187,9 @@ while ($count -lt $NUMBER_OF_ACCOUNTS_TO_CREATE) {
   </pre>
   <ul>
     <li>Verify the new accounts in ADUC and test logging in to Client-1 with one of them.</li>
-    <img src="https://i.imgur.com/UbVFYj1.png"/>
-    <img src="https://i.imgur.com/HcGOfMW.png"/>
-    <img src="https://i.imgur.com/lMTbyJo.png"/>
+    <img src="https://i.imgur.com/UbVFYj1.png"/><br />
+    <img src="https://i.imgur.com/HcGOfMW.png"/><br />
+    <img src="https://i.imgur.com/lMTbyJo.png"/><br />
   </ul>
   <img src="https://via.placeholder.com/800x400?text=PowerShell+User+Script" width="100%" />
 
