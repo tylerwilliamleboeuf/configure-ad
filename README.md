@@ -110,10 +110,14 @@ This tutorial outlines the implementation of on-premises Active Directory within
   <ul>
     <li>Log into Client-1 as local user <code>labuser</code>.</li>
     <li>Open Settings &gt; System &gt; About &gt; Rename this PC (Advanced).</li>
+    <img src="https://i.imgur.com/VcwguHg.png"/>
     <li>Click “Change” and select “Domain.” Enter <strong>mydomain.com</strong> and authenticate with jane_admin credentials.</li>
+    <img src="https://i.imgur.com/otRtNys.png"/>
+    <img src="https://i.imgur.com/lTVUo0O.png"/>
     <li>Restart Client-1 after the domain join is complete.</li>
     <li>Log in with <code>mydomain.com\jane_admin</code> or any other domain user.</li>
     <li>From DC-1, open ADUC and verify Client-1 is listed under “Computers.” Move it to a new OU called <strong>_CLIENTS</strong>.</li>
+    <img src="https://i.imgur.com/iSaNS84.png"/>
   </ul>
 
   <h3>7. Enable Remote Desktop for Domain Users</h3>
