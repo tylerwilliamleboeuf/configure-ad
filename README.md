@@ -124,7 +124,9 @@ This tutorial outlines the implementation of on-premises Active Directory within
   <ul>
     <li>Log into Client-1 with a domain admin account.</li>
     <li>Go to System Properties &gt; Remote &gt; Allow remote connections.</li>
+    <img src="https://i.imgur.com/5ZoBLrl.png"/>
     <li>Click “Select Users” and add “Domain Users” to grant RDP access to all domain accounts.</li>
+    <img src="https://i.imgur.com/gd6XICC.png"/>
   </ul>
 
   <h3>8. Create Additional Users with PowerShell</h3>
@@ -132,22 +134,62 @@ This tutorial outlines the implementation of on-premises Active Directory within
     <li>On DC-1, log in as <code>jane_admin</code> and open PowerShell ISE as Administrator.</li>
     <li>Create a CSV file with a list of user details (e.g., first name, last name, username).</li>
     <li>Write a script that loops through the CSV and uses <code>New-ADUser</code> to add users to the _EMPLOYEES OU.</li>
+    <img src="https://i.imgur.com/WWHLVbL.png"/>
     <li>Example PowerShell snippet:</li>
   </ul>
   <pre style="background-color: #f4f4f4; padding: 10px; border-left: 4px solid #ccc;">
-Import-Csv "C:\users.csv" | ForEach-Object {
-  New-ADUser -Name "$($_.FirstName) $($_.LastName)" `
-             -GivenName $_.FirstName `
-             -Surname $_.LastName `
-             -SamAccountName $_.Username `
-             -UserPrincipalName "$($_.Username)@mydomain.com" `
-             -AccountPassword (ConvertTo-SecureString "Cyberlab123!" -AsPlainText -Force) `
-             -Enabled $true `
-             -Path "OU=_EMPLOYEES,DC=mydomain,DC=com"
+ # ----- Edit these Variables for your own Use Case ----- #
+$PASSWORD_FOR_USERS   = "Password1"
+$NUMBER_OF_ACCOUNTS_TO_CREATE = 10000
+# ------------------------------------------------------ #
+
+Function generate-random-name() {
+    $consonants = @('b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z')
+    $vowels = @('a','e','i','o','u','y')
+    $nameLength = Get-Random -Minimum 3 -Maximum 7
+    $count = 0
+    $name = ""
+
+    while ($count -lt $nameLength) {
+        if ($($count % 2) -eq 0) {
+            $name += $consonants[$(Get-Random -Minimum 0 -Maximum $($consonants.Count - 1))]
+        }
+        else {
+            $name += $vowels[$(Get-Random -Minimum 0 -Maximum $($vowels.Count - 1))]
+        }
+        $count++
+    }
+
+    return $name
+
+}
+
+$count = 1
+while ($count -lt $NUMBER_OF_ACCOUNTS_TO_CREATE) {
+    $fisrtName = generate-random-name
+    $lastName = generate-random-name
+    $username = $fisrtName + '.' + $lastName
+    $password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force
+
+    Write-Host "Creating user: $($username)" -BackgroundColor Black -ForegroundColor Cyan
+    
+    New-AdUser -AccountPassword $password `
+               -GivenName $firstName `
+               -Surname $lastName `
+               -DisplayName $username `
+               -Name $username `
+               -EmployeeID $username `
+               -PasswordNeverExpires $true `
+               -Path "ou=_EMPLOYEES,$(([ADSI]`"").distinguishedName)" `
+               -Enabled $true
+    $count++
 }
   </pre>
   <ul>
     <li>Verify the new accounts in ADUC and test logging in to Client-1 with one of them.</li>
+    <img src="https://i.imgur.com/UbVFYj1.png"/>
+    <img src="https://i.imgur.com/HcGOfMW.png"/>
+    <img src="https://i.imgur.com/lMTbyJo.png"/>
   </ul>
   <img src="https://via.placeholder.com/800x400?text=PowerShell+User+Script" width="100%" />
 
