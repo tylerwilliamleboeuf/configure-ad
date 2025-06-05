@@ -61,24 +61,33 @@ This tutorial outlines the implementation of on-premises Active Directory within
     <li>Restart the Client-1 VM to apply the DNS configuration.</li>
     <img src="https://i.imgur.com/kssskRo.png"/>
   </ul>
-  <img src="https://via.placeholder.com/800x400?text=Client+VM+Network+Config" width="100%" />
 
   <h3>3. Verify Connectivity</h3>
   <ul>
     <li>Log into Client-1 using RDP.</li>
+    <img src="https://i.imgur.com/EHyM3NH.png"/>
     <li>Open Command Prompt and use <code>ping &lt;DC-1 IP&gt;</code> to confirm it can communicate with DC-1.</li>
+    <img src="https://i.imgur.com/roMWxhe.png"/>
     <li>Run <code>ipconfig /all</code> and verify that the DNS server matches DC-1’s private IP address.</li>
+    <img src="https://i.imgur.com/u8pT7dA.png"/>
   </ul>
 
   <h3>4. Install Active Directory on DC-1</h3>
   <ul>
     <li>On DC-1, open Server Manager &gt; Manage &gt; Add Roles and Features.</li>
+    <img src="https://i.imgur.com/C4FaOTK.png"/>
+    <img src="https://i.imgur.com/0LGHdNz.png"/>
     <li>Select “Active Directory Domain Services” and complete the installation.</li>
+    <img src="https://i.imgur.com/Pxz7s6u.png"/>
     <li>After installation, click “Promote this server to a domain controller.”</li>
+    <img src="https://i.imgur.com/iSsSdoK.png"/>
     <li>Create a new forest with domain name: <strong>mydomain.com</strong></li>
+    <img src="https://i.imgur.com/x2Zc9ZI.png"/>
     <li>Set Directory Services Restore Mode (DSRM) password.</li>
+    <img src="https://i.imgur.com/3E8k8OJ.png"/>
     <li>After configuration, the server will restart. Log back in using:  
       <code>mydomain.com\labuser</code></li>
+    <img src="https://i.imgur.com/W4YQwAE.png"/>
   </ul>
   <img src="https://via.placeholder.com/800x400?text=AD+Installation" width="100%" />
 
